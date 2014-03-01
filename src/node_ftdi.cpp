@@ -103,7 +103,8 @@ Handle<Value> NodeFtdi::GetPins(const Arguments& args) {
     unsigned char bits[1];
 
     ftdi_read_pins(&ftdic, bits);
-    return scope.Close(Number::New((int) (0xF - (bits[0] - 0xF0))));
+    //return scope.Close(Number::New((int) (0xF - (bits[0] - 0xF0))));
+    return scope.Close(Number::New((int) bits[0]));
 }
 
 
@@ -114,7 +115,12 @@ Handle<Value> NodeFtdi::SetPins(const Arguments& args) {
     unsigned char bits[1];
     int pins = args[0]->IsUndefined() ? 0 : args[0]->Int32Value();
 
-    bits[0] = (char) (0xF0 + (0xF - pins));
+    if (pins < 0 || pins > 255) {
+        pins = 255;
+    }
+
+    //bits[0] = (char) (0xF0 + (0xF - pins));
+    bits[0] = (char) pins;
     ftdi_write_data(&ftdic, bits, 1);
     ftdi_write_data(&ftdic, bits, 1);
     return scope.Close(Boolean::New(true));
