@@ -1,1 +1,1 @@
-node-fdti
+node-ftdi
