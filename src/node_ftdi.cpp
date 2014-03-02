@@ -80,6 +80,7 @@ Handle<Value> NodeFtdi::Open(const Arguments& args) {
         return scope.Close(String::New("Unable to read from device"));
     }
 
+    /*
     //Board has just been plugged in or power lost
     if (bits[0] == 0xFF) {
         //Prevents 0xFF from flipping all switches on
@@ -87,6 +88,7 @@ Handle<Value> NodeFtdi::Open(const Arguments& args) {
         ftdi_write_data(&ftdic, bits, 1);
         ftdi_write_data(&ftdic, bits, 1);
     }
+    */
     ret = ftdi_set_bitmode(&ftdic, 0xFF, BITMODE_BITBANG);
     if(ret < 0) {
         return scope.Close(String::New("Unable to set bit mode"));
